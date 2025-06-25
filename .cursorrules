@@ -1,0 +1,396 @@
+# Cursor Rules for Meditation App Development
+
+## 🏗️ Architectural Patterns
+
+### Project Structure
+- Follow the existing Expo Router structure with `app/` directory
+- Keep components in `components/` directory
+- Store types in `types/` directory
+- Place utilities in `utils/` directory
+- Store data and constants in `data/` directory
+- Keep hooks in `hooks/` directory
+
+### File Naming Conventions
+- Use PascalCase for component files: `BreathingAnimation.tsx`
+- Use camelCase for utility files: `breathingTimer.ts`
+- Use kebab-case for data files: `preset-routines.ts`
+- Use descriptive names that indicate purpose
+
+### Component Architecture
+- Prefer functional components with hooks over class components
+- Use TypeScript interfaces for all props and state
+- Implement proper error boundaries for critical components
+- Keep components focused and single-responsibility
+- Extract reusable logic into custom hooks
+
+## 📝 Coding Standards
+
+### TypeScript
+- Use strict TypeScript configuration
+- Define interfaces for all data structures
+- Avoid `any` type - use proper typing
+- Use union types for finite sets of values
+- Implement proper error handling with typed errors
+
+### React/React Native
+- Use React hooks for state management
+- Implement proper dependency arrays in useEffect
+- Use React.memo for performance optimization when needed
+- Follow React Native best practices for performance
+- Use proper navigation patterns with Expo Router
+
+### State Management
+- Use React Context for global state
+- Prefer local state with useState for component-specific state
+- Use useReducer for complex state logic
+- Implement proper state persistence with AsyncStorage
+- Handle loading and error states consistently
+
+## 🎬 Animation & Transition Standards
+
+### Screen Transitions
+- **Stack Navigation**: Use `slide_from_right` animation for all stack navigation (300ms duration)
+- **Modal Presentations**: Use `slide_from_bottom` animation for auth screens (400ms duration)
+- **Tab Navigation**: Ensure smooth transitions between tabs with consistent timing
+- **Error Screens**: Use `fade` animation for not-found screens (200ms duration)
+- **Gesture Navigation**: Enable horizontal swipe-to-go-back functionality
+- **Consistent Timing**: All animations follow established duration standards
+- **Route-Specific**: Configure animations in `app/_layout.tsx` for different screen types
+
+### Animation Implementation
+- **Root Layout**: Centralize animation configuration in `app/_layout.tsx`
+- **Route-Specific**: Use custom animations for different screen types (auth, tabs, errors)
+- **Gesture Support**: Enable horizontal gesture navigation across all routes
+- **Platform Consistency**: Ensure animations work seamlessly on both iOS and Android
+- **Performance Optimized**: Use native driver for smooth 60fps animations
+- **Animation Types**: 
+  - Main routes: `slide_from_right` (300ms)
+  - Auth screens: `slide_from_bottom` (400ms)
+  - Error screens: `fade` (200ms)
+
+### Performance Guidelines
+- Always use `useNativeDriver: true` when possible
+- Keep animation durations between 200-600ms for optimal UX
+- Avoid complex animations during critical user flows
+- Test animations on both iOS and Android devices
+- Monitor animation performance in production
+- Use consistent animation patterns across the app
+
+## 🎨 UI/UX Guidelines
+
+### Design System
+- Use consistent spacing and typography
+- Implement proper color contrast ratios
+- Follow platform-specific design patterns
+- Use semantic color names
+- Maintain consistent component APIs
+
+### 3D Effects & Shadows
+- Apply elevation: 20 for major cards and buttons
+- Use shadowColor: '#000000' for consistent shadows
+- Implement shadowOffset: { width: 0, height: 15 } for depth
+- Apply shadowOpacity: 0.4 for visible but subtle shadows
+- Use shadowRadius: 20 for soft, natural shadow edges
+- Add backgroundColor: '#f8fafc' to wrapper containers for shadow visibility
+
+### Color Coding System
+- **Beginner routines**: Soft blue gradient (#3b82f6 → #60a5fa → #93c5fd)
+- **Energy routines**: Vibrant orange gradient (#ea580c → #f97316 → #fb923c)
+- **Calm routines**: Soothing purple gradient (#7c3aed → #8b5cf6 → #a78bfa)
+- **Advanced routines**: Intense red gradient (#dc2626 → #ef4444 → #f87171)
+- **Custom routines**: Default blue gradient (#1e3a8a → #1e40af → #3b82f6)
+
+### Text Contrast & Readability
+- Use white text (`color: 'white'`) on all gradient backgrounds
+- Apply semi-transparent white (`rgba(255,255,255,0.9)`) for secondary text
+- Ensure all text has sufficient contrast against backgrounds
+- Use consistent font weights and sizes across similar elements
+- Test text readability on different screen sizes and brightness levels
+
+### Accessibility
+- Implement proper accessibility labels
+- Use semantic HTML elements
+- Provide keyboard navigation support
+- Test with screen readers
+- Follow WCAG guidelines
+
+### Animation Guidelines
+- Use React Native Animated API for screen transitions
+- Implement smooth fade-in effects for all screens
+- Provide consistent animation timing (600ms for screen transitions)
+- Optimize animation performance with native driver
+- Use consistent animation patterns across the app
+
+## 📊 Data Persistence & Profile Management
+
+### AsyncStorage Patterns
+- Use consistent key naming: `userProfile`, `customRoutines`, etc.
+- Implement proper error handling for storage operations
+- Validate data before saving to storage
+- Use TypeScript interfaces for stored data structures
+- Handle storage failures gracefully with user feedback
+
+### Profile Data Structure
+```typescript
+interface UserProfile {
+  firstName: string;
+  lastName: string;
+  bio: string;
+  profilePicture?: string;
+}
+```
+
+### Data Synchronization
+- Use `useFocusEffect` for screens that need to reload data
+- Implement proper loading states during data operations
+- Provide immediate feedback for save operations
+- Handle data conflicts and validation errors
+- Maintain data consistency across app restarts
+
+### Form Validation
+- Validate required fields before saving
+- Provide clear error messages to users
+- Implement proper input sanitization
+- Handle edge cases and empty states
+- Use consistent validation patterns across forms
+
+## 🚫 Don't Do X Instructions
+
+### Performance Anti-Patterns
+- ❌ Don't create components inside render functions
+- ❌ Don't use inline styles for complex styling
+- ❌ Don't perform expensive calculations in render
+- ❌ Don't forget to clean up timers and subscriptions
+- ❌ Don't use console.log in production code
+- ❌ Don't use setTimeout for animations (use Animated API instead)
+- ❌ Don't create animations without useNativeDriver when possible
+
+### Code Quality Anti-Patterns
+- ❌ Don't use magic numbers - define constants
+- ❌ Don't ignore TypeScript errors
+- ❌ Don't create deeply nested components
+- ❌ Don't duplicate code - extract utilities
+- ❌ Don't use hardcoded strings - use constants
+- ❌ Don't skip animation cleanup in useEffect
+- ❌ Don't use inconsistent shadow values across components
+
+### React Native Specific
+- ❌ Don't use setTimeout for animations
+- ❌ Don't forget to handle platform differences
+- ❌ Don't ignore accessibility features
+- ❌ Don't use deprecated APIs
+- ❌ Don't forget to test on both iOS and Android
+- ❌ Don't apply shadows without proper wrapper containers
+- ❌ Don't use colors that don't meet contrast requirements
+
+### Data Management Anti-Patterns
+- ❌ Don't save data without validation
+- ❌ Don't ignore AsyncStorage errors
+- ❌ Don't forget to handle loading states
+- ❌ Don't use inconsistent data structures
+- ❌ Don't skip error boundaries for critical operations
+
+## 🎯 Breathing App Specific Rules
+
+### Session Management
+- Always validate session state before updates
+- Implement proper session pause/resume functionality
+- Handle session interruption gracefully
+- Provide clear visual feedback for session phases
+- Maintain session state consistency across app restarts
+
+### Timer Implementation
+- Use proper timer cleanup in useEffect
+- Handle background/foreground app state changes
+- Implement accurate timing for breathing exercises
+- Provide haptic feedback for phase transitions
+- Handle timer precision across different devices
+
+### Data Persistence
+- Implement proper data validation before storage
+- Use consistent data structure across the app
+- Handle storage errors gracefully
+- Implement data migration strategies
+- Backup user data appropriately
+
+### Routine Color Coding
+- Assign specific gradient colors to each preset routine type
+- Use `getRoutineGradient()` function for consistent color mapping
+- Ensure custom routines maintain default blue gradient
+- Test color combinations for accessibility and readability
+- Maintain color consistency across all routine displays
+
+### Profile Management
+- Implement complete profile CRUD operations
+- Use consistent profile data structure across screens
+- Provide immediate feedback for profile updates
+- Handle profile picture uploads gracefully
+- Maintain profile data synchronization between screens
+
+## 🔧 Development Workflow
+
+### Code Organization
+- Group related functionality together
+- Use barrel exports for clean imports
+- Implement proper separation of concerns
+- Keep business logic separate from UI components
+- Use consistent import ordering
+
+### Testing Strategy
+- Write unit tests for utility functions
+- Test component behavior, not implementation
+- Mock external dependencies appropriately
+- Test error scenarios and edge cases
+- Maintain good test coverage
+
+### Documentation
+- Document complex business logic
+- Use JSDoc for public APIs
+- Keep README files updated
+- Document breaking changes
+- Maintain changelog
+
+## 📋 Framework Compliance (MANDATORY)
+
+### Pre-Implementation Checklist
+**BEFORE making any code changes, ALWAYS:**
+
+#### 1. PRD Alignment Check
+- ✅ Verify change aligns with product vision
+- ✅ Ensure it serves target user personas
+- ✅ Confirm it supports defined success metrics
+- ✅ Check if it fits within current scope
+
+#### 2. Documentation Review
+- ✅ Reference existing patterns and implementations
+- ✅ Check for similar functionality already implemented
+- ✅ Ensure consistency with current feature set
+- ✅ Review relevant documentation sections
+
+#### 3. Rule Compliance Verification
+- ✅ Confirm change follows all Cursor Rules
+- ✅ Check architectural pattern compliance
+- ✅ Verify no anti-patterns are being introduced
+- ✅ Ensure breathing app specific rules are followed
+
+#### 4. Impact Assessment
+- ✅ Analyze how change affects existing functionality
+- ✅ Identify potential breaking changes
+- ✅ Assess performance implications
+- ✅ Consider user experience impact
+
+### Implementation Standards
+
+#### For Bug Fixes
+- ✅ Reference expected behavior patterns
+- ✅ Follow established debugging patterns
+- ✅ Update documentation if behavior changes
+- ✅ Create RFC if fix introduces new patterns
+
+#### For New Features
+- ✅ Start with PRD alignment verification
+- ✅ Follow Cursor Rules during implementation
+- ✅ Update all relevant documentation
+- ✅ Measure against success criteria
+
+#### For Refactoring
+- ✅ Document the need and approach
+- ✅ Ensure no breaking changes to documented APIs
+- ✅ Maintain Cursor Rules compliance
+
+### Post-Implementation Requirements
+
+#### Documentation Updates
+- ✅ Update documentation with new functionality
+- ✅ Modify Cursor Rules if new patterns emerge
+- ✅ Document any new standards or best practices
+
+#### Quality Assurance
+- ✅ Verify Cursor Rules compliance
+- ✅ Check documentation accuracy
+- ✅ Validate against success criteria
+
+### Framework Maintenance Commitments
+
+#### Always Do
+- ✅ Follow Cursor Rules for all code
+- ✅ Reference established patterns
+- ✅ Update documentation with learnings
+- ✅ Maintain consistency across codebase
+- ✅ Consider user experience impact
+- ✅ Assess technical risks and mitigation
+
+#### Never Do
+- ❌ Ignore established patterns
+- ❌ Skip documentation updates
+- ❌ Violate Cursor Rules
+- ❌ Make changes without considering impact
+- ❌ Skip risk assessment for major changes
+
+### Framework Health Monitoring
+
+#### Regular Checks
+- ✅ Documentation currency (updated within 1 week of changes)
+- ✅ Rule effectiveness (preventing issues)
+- ✅ Process efficiency (workflow working smoothly)
+- ✅ Success metrics (meeting goals)
+
+#### Continuous Improvement
+- ✅ Learn from mistakes and update rules
+- ✅ Evolve patterns based on experience
+- ✅ Optimize process workflow steps
+- ✅ Measure framework effectiveness
+
+## 🔒 Security & Privacy
+
+### Data Protection
+- Encrypt sensitive user data
+- Implement proper authentication
+- Validate all user inputs
+- Use secure storage methods
+- Follow privacy best practices
+
+### Error Handling
+- Don't expose sensitive information in errors
+- Implement proper error boundaries
+- Log errors appropriately
+- Provide user-friendly error messages
+- Handle network errors gracefully
+
+## 📱 Platform Considerations
+
+### Cross-Platform Compatibility
+- Test on both iOS and Android
+- Handle platform-specific APIs properly
+- Use platform-agnostic solutions when possible
+- Implement proper fallbacks
+- Consider web platform limitations
+
+### Performance Optimization
+- Optimize bundle size
+- Implement proper lazy loading
+- Use efficient data structures
+- Minimize re-renders
+- Profile performance regularly
+
+## 🔄 Evolution Rules
+
+### Learning from Mistakes
+- Document bugs and their solutions
+- Update these rules based on issues encountered
+- Share learnings with the team
+- Implement preventive measures
+- Regular rule review and updates
+
+### Continuous Improvement
+- Regularly review and update these rules
+- Incorporate team feedback
+- Stay updated with best practices
+- Adapt to new technologies
+- Maintain rule relevance
+
+---
+
+**Last Updated:** December 2024
+**Version:** 2.1
+**Next Review:** January 2025 
