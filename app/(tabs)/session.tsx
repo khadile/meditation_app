@@ -16,6 +16,7 @@ import { Routine, SessionState, SessionPhase } from '@/types/breathing';
 import { formatTime, getBreathingDuration } from '@/utils/breathingTimer';
 import BreathingAnimation from '@/components/BreathingAnimation';
 import { Pause, Play, SkipForward, X, Volume2 } from 'lucide-react-native';
+import { recordSession } from '@/utils/auth';
 
 const { width, height } = Dimensions.get('window');
 
@@ -179,7 +180,7 @@ export default function SessionScreen() {
     }
   };
 
-  const completeSession = () => {
+  const completeSession = async () => {
     setIsSessionActive(false);
     setSessionState(prev => ({
       ...prev,
@@ -189,6 +190,30 @@ export default function SessionScreen() {
     
     if (timerRef.current) {
       clearInterval(timerRef.current);
+    }
+
+    // Record the completed session
+    if (routine) {
+      try {
+        // Calculate session duration (approximate based on routine structure)
+        const totalDuration = routine.rounds.reduce((total, round) => {
+          const breathDuration = getBreathingDuration(round.breathSpeed) / 1000; // in seconds
+          const breathingTime = round.breaths * breathDuration;
+          const holdTime = round.exhaleHold + round.inhaleHold;
+          return total + breathingTime + holdTime;
+        }, 0);
+
+        const sessionData = {
+          routineId: routine.id,
+          routineName: routine.routineName,
+          duration: Math.round(totalDuration / 60), // Convert to minutes
+          completedAt: new Date().toISOString(),
+        };
+        
+        await recordSession(sessionData);
+      } catch (error) {
+        console.error('Error recording session:', error);
+      }
     }
     
     Alert.alert(

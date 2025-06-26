@@ -73,7 +73,7 @@
 - Keep animation durations between 200-600ms for optimal UX
 - Avoid complex animations during critical user flows
 - Test animations on both iOS and Android devices
-- Monitor animation performance in production
+- Monitor animation performance in development
 - Use consistent animation patterns across the app
 
 ## 🎨 UI/UX Guidelines
@@ -121,6 +121,30 @@
 - Optimize animation performance with native driver
 - Use consistent animation patterns across the app
 
+## 🔐 Authentication & Security Standards
+
+### Clerk Integration
+- **Environment Variables**: Always use `EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY` for Clerk configuration
+- **Error Handling**: Implement comprehensive error handling for all authentication flows
+- **User Feedback**: Provide clear, user-friendly error messages
+- **Loading States**: Show appropriate loading indicators during authentication
+- **Validation**: Validate all user inputs before submission
+- **MVP Ready**: Remove debugging logs and test elements for MVP testing
+
+### Authentication Flow
+- **Signup Process**: Handle email verification requirements gracefully
+- **Login Process**: Provide clear feedback for login attempts
+- **Session Management**: Proper session handling and timeout
+- **Token Storage**: Use Expo SecureStore for secure token caching
+- **Error Recovery**: Graceful error recovery and retry mechanisms
+
+### Security Best Practices
+- **Input Sanitization**: Validate and sanitize all user inputs
+- **Error Boundaries**: Prevent sensitive information exposure in errors
+- **Token Management**: Secure token storage and rotation
+- **Privacy Controls**: User-controlled data sharing settings
+- **GDPR Compliance**: Privacy-first data handling
+
 ## 📊 Data Persistence & Profile Management
 
 ### AsyncStorage Patterns
@@ -161,7 +185,7 @@ interface UserProfile {
 - ❌ Don't use inline styles for complex styling
 - ❌ Don't perform expensive calculations in render
 - ❌ Don't forget to clean up timers and subscriptions
-- ❌ Don't use console.log in production code
+- ❌ Don't use console.log in MVP code
 - ❌ Don't use setTimeout for animations (use Animated API instead)
 - ❌ Don't create animations without useNativeDriver when possible
 
@@ -189,6 +213,14 @@ interface UserProfile {
 - ❌ Don't forget to handle loading states
 - ❌ Don't use inconsistent data structures
 - ❌ Don't skip error boundaries for critical operations
+
+### Authentication Anti-Patterns
+- ❌ Don't expose sensitive information in error messages
+- ❌ Don't skip input validation for authentication forms
+- ❌ Don't forget to handle loading states during auth operations
+- ❌ Don't use hardcoded authentication keys
+- ❌ Don't ignore email verification requirements
+- ❌ Don't leave debugging logs in MVP code
 
 ## 🎯 Breathing App Specific Rules
 
@@ -392,5 +424,6 @@ interface UserProfile {
 ---
 
 **Last Updated:** December 2024
-**Version:** 2.1
-**Next Review:** January 2025 
+**Version:** 3.0
+**Next Review:** January 2025
+**Status:** MVP with Clerk Authentication 

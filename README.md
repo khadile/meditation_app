@@ -1,6 +1,6 @@
-# Wim Hof Breathing App
+# 🧘‍♀️ **Breathing App**
 
-A modern, comprehensive React Native app focused on the Wim Hof Method, featuring beautiful animations, custom breathing routines, and an intuitive user experience.
+A React Native meditation and breathing app built with Expo Router and Clerk authentication.
 
 ## 🎯 Overview
 
@@ -8,8 +8,9 @@ This app provides a complete platform for practicing the Wim Hof breathing techn
 - **Preset Routines**: Curated breathing patterns for different skill levels
 - **Custom Routines**: User-created breathing sequences
 - **Real-time Guidance**: Visual breathing animations and phase indicators
-- **Progress Tracking**: Session completion and performance metrics
+- **Progress Tracking**: Complete session recording and statistics
 - **Modern UI**: 3D effects, gradients, and smooth animations
+- **Authentication**: Secure user management with Clerk
 
 ## ✨ Features
 
@@ -17,7 +18,9 @@ This app provides a complete platform for practicing the Wim Hof breathing techn
 - **Wim Hof Breathing Sessions**: Guided breathing with visual feedback
 - **Custom Routine Creation**: Build personalized breathing patterns
 - **Routine Management**: Save, edit, and delete custom routines
-- **Profile System**: User profiles with progress tracking
+- **Profile System**: Complete user profiles with progress tracking
+- **Session Recording**: Automatic session tracking and statistics
+- **Real-time Statistics**: Live session count, meditation time, and streaks
 - **Search & Discovery**: Find routines by name or instructor
 
 ### User Experience
@@ -34,73 +37,158 @@ This app provides a complete platform for practicing the Wim Hof breathing techn
 - **Animation System**: Consistent 300ms slide transitions
 - **Performance Optimized**: 60fps animations with native driver
 
-## 🚀 Getting Started
+## 🚀 **Quick Start**
 
-### Prerequisites
-- Node.js (v16 or higher)
-- npm or yarn
+### **Prerequisites**
+- Node.js (v18 or higher)
 - Expo CLI
-- iOS Simulator or Android Emulator (optional)
+- iOS Simulator or Android Emulator
 
-### Installation
-
-1. **Clone the repository**
-   ```bash
-   git clone <repository-url>
-   cd mediation-project
-   ```
-
-2. **Install dependencies**
-   ```bash
-   npm install
-   ```
-
-3. **Start the development server**
-   ```bash
-   npx expo start
-   ```
-
-4. **Run on device/simulator**
-   - Press `i` for iOS simulator
-   - Press `a` for Android emulator
-   - Scan QR code with Expo Go app on your device
-
-## 📱 App Structure
-
-```
-app/
-├── (tabs)/           # Tab-based navigation screens
-│   ├── index.tsx     # Home screen with quick actions
-│   ├── explore.tsx   # Discover and search routines
-│   ├── profile.tsx   # User profile and settings
-│   ├── wim-hof.tsx   # Browse preset routines
-│   ├── custom.tsx    # Create custom routines
-│   ├── session.tsx   # Breathing session interface
-│   └── routine-details.tsx # Routine information
-├── _layout.tsx       # Root navigation configuration
-└── auth.tsx          # Authentication screens
-
-components/           # Reusable UI components
-data/                 # Static data and constants
-docs/                 # Project documentation
-hooks/                # Custom React hooks
-types/                # TypeScript type definitions
-utils/                # Utility functions
+### **Installation**
+```bash
+npm install
 ```
 
-## 🎨 Design System
+### **Running the App**
+```bash
+npm start
+```
 
-### Color Coding
-- **Beginner**: Soft blue gradient (#3b82f6 → #60a5fa → #93c5fd)
-- **Energy**: Vibrant orange gradient (#ea580c → #f97316 → #fb923c)
-- **Calm**: Soothing purple gradient (#7c3aed → #8b5cf6 → #a78bfa)
-- **Advanced**: Intense red gradient (#dc2626 → #ef4444 → #f87171)
+## 🔐 **Authentication Setup**
 
-### Animation Standards
-- **Screen Transitions**: 300ms slide_from_right
-- **Modal Presentations**: 400ms slide_from_bottom
-- **Fade-in Effects**: 600ms opacity animations
-- **Gesture Navigation**: Horizontal swipe-to-go-back
+### **Clerk Configuration**
+This app uses Clerk for authentication. To set up Clerk:
+
+1. **Create a Clerk Account**
+   - Go to [clerk.com](https://clerk.com) and create an account
+   - Create a new application
+
+2. **Get Your Publishable Key**
+   - In your Clerk dashboard, go to API Keys
+   - Copy your publishable key (starts with `pk_test_` or `pk_live_`)
+
+3. **Configure Environment Variables**
+   - Create a `.env` file in the root directory
+   - Add your Clerk publishable key:
+   ```
+   EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY=pk_test_your_key_here
+   ```
+
+4. **Configure Clerk Settings**
+   - Go to **User & Authentication** → **Email, Phone, Username**
+   - Enable **Email address** and **Password**
+   - Set **Phone number** to optional or disable it
+   - Configure **Email verification** as needed for your use case
+
+### **Authentication Features**
+- ✅ Email/password signup and login
+- ✅ Profile management with first name, last name, and bio
+- ✅ Profile picture upload
+- ✅ Secure token storage
+- ✅ Email verification
+- ✅ Password validation
+- ✅ MVP-ready error handling
+
+## 🫁 **App Features**
+
+### **Breathing Exercises**
+- **Wim Hof Method**: Guided breathing sessions with skip functionality
+- **Preset Routines**: Beginner, Energy, Calm, and Advanced routines
+- **Custom Routines**: Create and save your own breathing patterns
+- **Session Interface**: Complete breathing session with visual guidance
+
+### **Progress Tracking**
+- **Session Recording**: Automatic recording when sessions are completed
+- **Real-time Statistics**: Live session count, meditation time, and streaks
+- **Profile Integration**: Statistics displayed on user profile screen
+- **Streak Calculation**: Intelligent consecutive day streak tracking
+- **Session History**: Complete session history with routine details
+
+### **User Experience**
+- **Beautiful UI**: Modern design with gradients and animations
+- **Smooth Navigation**: Expo Router with custom animations
+- **Offline Support**: Works without internet connection
+- **Cross-Platform**: iOS and Android support
+- **3D Effects**: Consistent elevation and shadow system
+
+## 🛠️ **Development**
+
+### **Project Structure**
+```
+app/                    # Expo Router screens
+├── (tabs)/            # Tab navigation screens
+├── auth.tsx           # Main auth screen
+├── login.tsx          # Login screen
+├── signup.tsx         # Signup screen
+└── _layout.tsx        # Root layout
+
+components/            # Reusable components
+data/                  # App data and constants
+hooks/                 # Custom React hooks
+types/                 # TypeScript type definitions
+utils/                 # Utility functions
+```
+
+### **Key Technologies**
+- **React Native** with Expo
+- **Expo Router** for navigation
+- **Clerk** for authentication
+- **TypeScript** for type safety
+- **Lucide React Native** for icons
+- **Expo Linear Gradient** for UI effects
+
+## 🐛 **Troubleshooting**
+
+### **Signup Failed Error**
+If you're getting a "Signup Failed" error:
+
+1. **Check Clerk Configuration**
+   - Ensure your `.env` file has the correct Clerk publishable key
+   - Verify the key is valid in your Clerk dashboard
+
+2. **Email Verification**
+   - Check your email for verification link
+   - Or disable email verification in Clerk dashboard for development
+
+3. **Phone Number Requirements**
+   - Make sure phone number is set to optional in Clerk settings
+   - Or add phone number field to the signup form
+
+### **Common Issues**
+- **Missing Environment Variables**: Create a `.env` file with your Clerk key
+- **Network Issues**: Ensure you have internet connection for Clerk authentication
+- **Invalid Email**: Use a valid email format
+- **Weak Password**: Password must be 8+ characters with uppercase, lowercase, and number
+
+## 📱 **Testing**
+
+### **Authentication Flow**
+1. Open the app
+2. Navigate to signup
+3. Fill in all required fields
+4. Submit the form
+5. Check email for verification (if enabled)
+
+### **Development Testing**
+- All breathing exercises work without authentication
+- Profile management requires authentication
+- Offline functionality available for core features
+
+## 🤝 **Contributing**
+
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Test thoroughly
+5. Submit a pull request
+
+## 📄 **License**
+
+This project is licensed under the MIT License.
+
+---
+
+**Note**: This app is designed for educational and personal use. For production deployment, ensure proper security measures and environment configuration.
 
 ## 📚 Documentation
 
@@ -111,64 +199,31 @@ The project includes comprehensive documentation:
 - **[Workflow Overview](docs/workflow-overview.md)**: Development process and standards
 - **[Cursor Rules](.cursorrules)**: Coding standards and best practices
 
-## 🛠️ Development
+## 🎨 Design System
 
-### Code Standards
-- **TypeScript**: Strict typing throughout the codebase
-- **React Hooks**: Functional components with modern patterns
-- **Expo Router**: File-based navigation system
-- **AsyncStorage**: Local data persistence
-- **Performance**: Native driver animations and optimized rendering
+### **Color Coding System**
+- **Beginner routines**: Soft blue gradient (#3b82f6 → #60a5fa → #93c5fd)
+- **Energy routines**: Vibrant orange gradient (#ea580c → #f97316 → #fb923c)
+- **Calm routines**: Soothing purple gradient (#7c3aed → #8b5cf6 → #a78bfa)
+- **Advanced routines**: Intense red gradient (#dc2626 → #ef4444 → #f87171)
+- **Custom routines**: Default blue gradient (#1e3a8a → #1e40af → #3b82f6)
 
-### Project Structure
-- **Components**: Reusable UI components in `components/`
-- **Hooks**: Custom React hooks in `hooks/`
-- **Types**: TypeScript definitions in `types/`
-- **Utils**: Utility functions in `utils/`
-- **Data**: Static data and constants in `data/`
-
-## 📊 Current Status
-
-### ✅ Completed Features
-- Home screen with Wim Hof breathing card
-- Wim Hof screen with preset routines
-- Custom routine creation and management
-- Profile system with edit functionality
-- Explore screen with search functionality
-- Animation system with consistent transitions
-- Smart navigation with context-aware routing
-- Data persistence with AsyncStorage
-
-### 🔄 In Progress
-- Session screen breathing interface
-- Progress tracking and analytics
-- Settings and preferences
-
-### 📋 Planned Features
-- Image picker for profile pictures
-- Audio guidance during sessions
-- Advanced analytics and insights
-- Community features and sharing
-
-## 🤝 Contributing
-
-1. Follow the [Cursor Rules](.cursorrules) for coding standards
-2. Create RFCs for new features using the [RFC Template](docs/RFC-template.md)
-3. Update documentation for any changes
-4. Ensure TypeScript compilation passes
-5. Test on both iOS and Android
-
-## 📄 License
-
-This project is licensed under the MIT License - see the LICENSE file for details.
+### **Animation Standards**
+- **Screen Transitions**: 300ms slide_from_right for main navigation
+- **Modal Presentations**: 400ms slide_from_bottom for auth screens
+- **Fade Effects**: 600ms opacity animations for content loading
+- **Gesture Navigation**: Horizontal swipe-to-go-back functionality
+- **Performance Optimized**: Native driver for 60fps animations
 
 ## 🙏 Acknowledgments
 
-- **Wim Hof**: For developing the breathing method
-- **Expo**: For the excellent React Native development platform
-- **React Native**: For the mobile development framework
-- **Lucide React Native**: For the beautiful icon set
+- **Expo Team** for the amazing development platform
+- **Clerk Team** for secure authentication solutions
+- **React Native Community** for continuous improvements
+- **Open Source Contributors** for valuable libraries and tools
 
 ---
 
-**Built with ❤️ for the Wim Hof community** 
+**Status**: ✅ MVP with Clerk Authentication
+**Last Updated**: December 2024
+**Version**: 3.0 

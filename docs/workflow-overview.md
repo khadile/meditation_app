@@ -273,7 +273,38 @@ Updated PRD (Lessons Learned)
 
 ---
 
-**Document Version**: 1.0  
-**Last Updated**: [Current Date]  
-**Next Review**: [Date + 3 months]  
+## 🔐 Authentication & Profile Context
+- Use the `useAuth` context/provider for all authentication, profile, and user state logic
+- Do not access AsyncStorage directly for user/profile data—always use the context
+- Update profile, preferences, and stats via context methods
+- All screens requiring user info should consume the context
+
+## 📱 Current MVP Status
+
+### ✅ Completed Features
+- **Authentication System**: Clerk integration with email/password
+- **User Management**: Basic profile creation and editing
+- **Breathing Exercises**: Wim Hof method and preset routines
+- **Custom Routines**: Create and save personalized breathing patterns
+- **Offline Support**: Core functionality works without internet
+- **Cross-Platform**: iOS and Android compatibility
+
+### 🚧 In Development
+- **Progress Tracking**: Session history and statistics
+- **Advanced Analytics**: Detailed user insights
+- **Social Features**: Community and sharing capabilities
+- **Performance Optimization**: Animation and loading improvements
+
+### 📋 Next Priorities
+- **User Testing**: Gather feedback on current features
+- **Bug Fixes**: Address any issues found during testing
+- **Feature Polish**: Improve existing functionality
+- **Documentation**: Keep docs current with implementation
+
+---
+
+**Document Version**: 2.0  
+**Last Updated**: December 2024  
+**Next Review**: January 2025  
+**Status**: MVP with Working Authentication
 **Maintained By**: Development Team 

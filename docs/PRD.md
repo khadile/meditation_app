@@ -1,202 +1,293 @@
-# Product Requirements Document (PRD)
-## Wim Hof Breathing App
+# 🧘‍♀️ **Product Requirements Document (PRD)**
+## Meditation & Breathing App
 
-### 1. Executive Summary
-
-**Product Name:** Wim Hof Breathing App  
-**Version:** 2.0.0  
-**Platform:** React Native with Expo (iOS, Android)  
-**Target Audience:** Wim Hof method practitioners, wellness enthusiasts, stress management seekers  
-
-### 2. Product Vision
-
-Create a focused and comprehensive Wim Hof breathing app that guides users through the Wim Hof Method with beautiful, modern design, personalized routines, and engaging user experience for stress relief, energy enhancement, and overall wellness.
-
-### 3. Core Objectives
-
-#### Primary Goals
-- **Wim Hof Focus**: Dedicated platform for Wim Hof breathing technique
-- **Accessibility**: Make Wim Hof method accessible to beginners
-- **Personalization**: Allow users to create custom Wim Hof routines
-- **Engagement**: Provide visual guidance and modern UI to maintain engagement
-- **Progress Tracking**: Enable users to track their Wim Hof journey
-- **Cross-Platform**: Seamless experience across iOS and Android
-
-#### Success Metrics
-- User retention rate (target: 75% after 30 days)
-- Session completion rate (target: 90%)
-- User engagement time (target: 15+ minutes per session)
-- App store ratings (target: 4.5+ stars)
-
-### 4. Target User Personas
-
-#### Persona 1: Wim Hof Beginner
-- **Demographics**: 25-40 years old, busy professionals
-- **Goals**: Stress relief, better sleep, mental clarity, energy boost
-- **Pain Points**: Overwhelmed by complex breathing techniques, lack of guidance
-- **Needs**: Simple, guided Wim Hof sessions, preset routines
-
-#### Persona 2: Wim Hof Practitioner
-- **Demographics**: 30-50 years old, health-conscious individuals
-- **Goals**: Enhanced performance, deeper breathing states, cold exposure prep
-- **Pain Points**: Need for customization, progression tracking
-- **Needs**: Advanced Wim Hof routines, detailed analytics, customization options
-
-#### Persona 3: Wellness Enthusiast
-- **Demographics**: 20-35 years old, fitness and wellness focused
-- **Goals**: Energy optimization, mental performance, immune system boost
-- **Pain Points**: Seeking evidence-based breathing techniques
-- **Needs**: Scientific backing, progress tracking, community features
-
-### 5. Core Features
-
-#### 5.1 Wim Hof Breathing Sessions
-- **Preset Routines**: Color-coded Wim Hof variations (Beginner, Energizer, Calm, Advanced)
-- **Custom Routines**: User-created Wim Hof breathing sequences
-- **Real-time Guidance**: Visual breathing animations and phase indicators
-- **Session Controls**: Play, pause, skip, and restart functionality
-- **Progress Tracking**: Session completion, hold times, breath counts
-
-#### 5.2 User Experience
-- **Modern Design**: 3D effects, smooth animations, gradient backgrounds
-- **Color Coding**: Intuitive routine identification with unique gradients
-- **Personalization**: Customizable settings and profile management
-- **Visual Feedback**: Breathing animations and progress indicators
-- **Smooth Navigation**: Fade-in animations and slide transitions
-
-#### 5.3 Profile & Data Management
-- **User Profiles**: Complete profile system with picture, name, and bio
-- **Session History**: Complete log of all Wim Hof sessions
-- **Progress Metrics**: Hold time improvements, session frequency
-- **Achievements**: Milestone tracking and gamification elements
-- **Data Persistence**: Local storage with AsyncStorage
-
-#### 5.4 Custom Routine Creation
-- **Routine Builder**: Step-by-step Wim Hof routine creation
-- **Parameter Control**: Intuitive controls for breaths, speeds, and hold times
-- **Validation**: Safety and effectiveness validation
-- **Template System**: Start from existing Wim Hof routines
-- **Routine Management**: Save, edit, and delete custom routines
-
-### 6. Technical Requirements
-
-#### 6.1 Platform Specifications
-- **Framework**: React Native with Expo
-- **Language**: TypeScript
-- **Navigation**: Expo Router with tab-based navigation
-- **State Management**: React hooks and context
-- **Storage**: AsyncStorage for local data persistence
-- **Animations**: React Native Animated API with native driver
-
-#### 6.2 Performance Requirements
-- **App Launch**: < 3 seconds cold start
-- **Session Loading**: < 1 second
-- **Animation Smoothness**: 60 FPS with native driver
-- **Battery Usage**: Minimal impact during sessions
-- **Offline Capability**: All features available without internet
-
-#### 6.3 Design System
-- **3D Effects**: Consistent elevation and shadow system
-- **Color Coding**: Unique gradients for each routine type
-- **Typography**: Readable, accessible font choices
-- **Animations**: 600ms fade-in transitions, 300ms slide transitions
-- **Responsive Design**: Adaptive layouts for different screen sizes
-
-### 7. User Journey
-
-#### 7.1 Onboarding Flow
-1. **Home Screen**: Wim Hof breathing card with 3D effects
-2. **Quick Start**: 5-minute breathing session or custom routine
-3. **Profile Setup**: Basic profile information and preferences
-4. **First Session**: Guided introduction to Wim Hof technique
-
-#### 7.2 Daily Usage Flow
-1. **Home Screen**: Quick access to Wim Hof breathing
-2. **Wim Hof Screen**: Browse color-coded preset routines
-3. **Session Execution**: Guided breathing with visual feedback
-4. **Post-Session**: Progress tracking and statistics
-5. **Profile Review**: Weekly/monthly progress overview
-
-### 8. Success Criteria
-
-#### 8.1 User Engagement
-- **Daily Active Users**: 70% of registered users
-- **Session Duration**: Average 20 minutes per session
-- **Feature Adoption**: 85% of users try custom routines within 30 days
-
-#### 8.2 Technical Performance
-- **Crash Rate**: < 0.1%
-- **Load Times**: All screens load within 2 seconds
-- **Animation Performance**: 60 FPS on all animations
-- **Battery Impact**: < 5% additional drain per hour of use
-
-#### 8.3 Business Metrics
-- **User Acquisition**: 15,000 downloads in first 3 months
-- **Retention**: 50% of users active after 90 days
-- **Satisfaction**: 4.5+ star rating across app stores
-
-### 9. Current Implementation Status
-
-#### ✅ Completed Features
-- **Home Screen**: Wim Hof breathing card with 3D effects and animations
-- **Wim Hof Screen**: Color-coded preset routines with custom routine management
-- **Custom Routines**: Complete routine builder with validation
-- **Profile System**: User profiles with picture, name, bio, and edit functionality
-- **Animation System**: Smooth fade-in and slide transitions
-- **3D Design**: Consistent elevation and shadow system
-- **Data Persistence**: AsyncStorage integration with real-time synchronization
-- **Navigation**: Seamless screen transitions with proper back navigation
-
-#### 🔄 In Progress
-- **Session Screen**: Core breathing session interface
-- **Progress Tracking**: Session statistics and achievements
-- **Settings**: App preferences and configuration
-
-#### 📋 Planned Features
-- **Image Picker**: Profile picture upload functionality
-- **Audio Guidance**: Voice instructions during sessions
-- **Advanced Analytics**: Detailed performance insights
-- **Community Features**: User sharing and challenges
-
-### 10. Future Roadmap
-
-#### Phase 2 (Months 4-6)
-- **Image Picker**: Profile picture upload functionality
-- **Audio Guidance**: Voice instructions during Wim Hof sessions
-- **Background Sounds**: Ambient meditation music
-- **Advanced Analytics**: Detailed performance insights
-
-#### Phase 3 (Months 7-12)
-- **Community Features**: Forums, challenges, mentorship
-- **Premium Content**: Expert-led Wim Hof sessions
-- **Integration**: Apple Health, Google Fit, wearable devices
-
-#### Phase 4 (Year 2+)
-- **AR/VR Integration**: Immersive Wim Hof experiences
-- **Research Platform**: Scientific studies and data collection
-- **Global Expansion**: Multi-language support, cultural adaptations
-
-### 11. Risk Assessment
-
-#### Technical Risks
-- **Performance Issues**: Complex animations affecting device performance
-- **Platform Compatibility**: iOS/Android feature parity challenges
-- **Data Loss**: User progress and custom routines
-
-#### Business Risks
-- **Market Competition**: Established meditation and breathing apps
-- **User Adoption**: Wim Hof method may intimidate beginners
-- **Regulatory**: Health app regulations and compliance
-
-#### Mitigation Strategies
-- **Performance Testing**: Regular testing across device types
-- **Gradual Rollout**: Feature releases with user feedback
-- **Backup Systems**: Multiple data storage and recovery options
-- **User Education**: Comprehensive onboarding and help resources
+### **Document Information**
+- **Version**: 3.0
+- **Last Updated**: December 2024
+- **Status**: MVP with Complete Session Tracking
+- **Next Review**: January 2025
 
 ---
 
-**Document Version:** 2.0  
-**Last Updated:** December 2024  
-**Next Review:** March 2025  
-**Stakeholders:** Development Team, Product Manager, UX Designer, Marketing Team 
+## 📋 **Executive Summary**
+
+### **Product Vision**
+A mobile meditation and breathing app that helps users develop healthy breathing habits through guided exercises, personalized routines, and progress tracking. The app focuses on simplicity, accessibility, and offline functionality to ensure users can practice breathing techniques anywhere, anytime.
+
+### **Current Status: MVP Complete**
+The app has achieved full MVP status with working authentication, complete session tracking, real-time statistics, and comprehensive user management. All core features are functional and ready for user testing and feedback collection.
+
+### **Target Market**
+- **Primary**: Adults aged 25-45 seeking stress relief and mindfulness
+- **Secondary**: Fitness enthusiasts interested in breathing techniques
+- **Tertiary**: Healthcare professionals recommending breathing exercises
+
+---
+
+## 🎯 **Product Goals**
+
+### **Primary Objectives**
+1. **User Engagement**: Help users establish daily breathing practice
+2. **Stress Reduction**: Provide effective stress relief through breathing
+3. **Accessibility**: Make breathing exercises available offline
+4. **Personalization**: Allow users to create custom routines
+
+### **Success Metrics**
+- **Daily Active Users**: 70% of users return within 7 days
+- **Session Completion**: 80% of started sessions are completed
+- **User Retention**: 50% of users active after 30 days
+- **App Store Rating**: Maintain 4.5+ stars
+
+---
+
+## 👥 **User Personas**
+
+### **Persona 1: Sarah, 32, Marketing Manager**
+- **Pain Points**: High stress, limited time, needs quick relief
+- **Goals**: Reduce stress, improve focus, better sleep
+- **Tech Comfort**: High, uses multiple apps daily
+- **Usage Pattern**: 10-15 minutes daily, mostly evenings
+
+### **Persona 2: Mike, 28, Software Developer**
+- **Pain Points**: Long hours, eye strain, mental fatigue
+- **Goals**: Mental clarity, energy boost, better concentration
+- **Tech Comfort**: Very high, early adopter
+- **Usage Pattern**: 5-10 minutes multiple times daily
+
+### **Persona 3: Lisa, 45, Yoga Instructor**
+- **Pain Points**: Needs variety, wants to recommend to clients
+- **Goals**: Expand practice, help clients, personal growth
+- **Tech Comfort**: Medium, prefers simple interfaces
+- **Usage Pattern**: 20-30 minutes daily, morning routine
+
+---
+
+## 🫁 **Core Features**
+
+### **1. Authentication & User Management (MVP Complete)**
+- **User Registration**: Email/password signup with Clerk
+- **User Login**: Secure authentication with error handling
+- **Profile Management**: Complete profile editing (name, bio, profile picture)
+- **Session Management**: Secure token storage and handling
+- **Data Synchronization**: User data synchronized with Clerk authentication
+
+### **2. Breathing Exercises (MVP Complete)**
+- **Wim Hof Method**: Guided breathing sessions with customizable rounds
+- **Preset Routines**: Beginner, Energy, Calm, and Advanced routines
+- **Custom Routines**: Create and save personalized breathing patterns
+- **Session Interface**: Complete breathing session with skip functionality
+- **Offline Access**: All exercises work without internet connection
+
+### **3. Session Tracking & Statistics (MVP Complete)**
+- **Automatic Recording**: Sessions automatically saved when completed
+- **Real-time Statistics**: Live session count, meditation time, and streaks
+- **Profile Integration**: Statistics displayed on user profile screen
+- **Streak Calculation**: Intelligent consecutive day streak tracking
+- **Session History**: Complete session history with routine details
+- **Duration Tracking**: Accurate session duration calculation
+
+### **4. User Interface (MVP Complete)**
+- **Modern Design**: Clean, minimalist interface with gradients
+- **Smooth Navigation**: Expo Router with custom animations
+- **Cross-Platform**: Consistent experience on iOS and Android
+- **3D Effects**: Consistent elevation and shadow system
+- **Accessibility**: Basic accessibility features implemented
+
+### **5. Data Management (MVP Complete)**
+- **Local Storage**: AsyncStorage for offline functionality
+- **User Data**: Profile information and custom routines
+- **Session Data**: Complete session tracking and storage
+- **Data Persistence**: Survives app restarts and updates
+- **Error Handling**: Graceful error handling for data operations
+
+---
+
+## 🚧 **Planned Features (Post-MVP)**
+
+### **Phase 2: Enhanced User Experience**
+- **Progress Tracking**: Detailed session history and statistics
+- **Achievement System**: Milestones and rewards for consistency
+- **Advanced Analytics**: Breathing pattern analysis and insights
+- **Social Features**: Community sharing and challenges
+
+### **Phase 3: Advanced Functionality**
+- **Health Integration**: Apple Health and Google Fit integration
+- **Voice Guidance**: AI-powered voice-guided sessions
+- **Biometric Integration**: Heart rate and stress monitoring
+- **Personalization**: AI-driven routine recommendations
+
+### **Phase 4: Platform Expansion**
+- **Web Version**: Progressive Web App for desktop access
+- **Wearable Integration**: Smartwatch and fitness tracker support
+- **Enterprise Features**: Team and organization management
+- **API Access**: Third-party integrations and data export
+
+---
+
+## 🛠️ **Technical Requirements**
+
+### **Current Stack (MVP)**
+- **Frontend**: React Native with Expo
+- **Navigation**: Expo Router (file-based routing)
+- **Authentication**: Clerk (email/password)
+- **Storage**: AsyncStorage (local) + Expo SecureStore (tokens)
+- **Styling**: NativeWind (utility-first CSS)
+- **Language**: TypeScript (strict mode)
+
+### **Performance Requirements**
+- **App Launch**: < 3 seconds on mid-range devices
+- **Navigation**: < 300ms between screens
+- **Animations**: 60fps with native driver
+- **Offline Functionality**: 100% core features available offline
+
+### **Security Requirements**
+- **Authentication**: Secure token-based authentication
+- **Data Protection**: Local encryption for sensitive data
+- **Input Validation**: Comprehensive form validation
+- **Error Handling**: Secure error boundaries
+
+---
+
+## 📱 **Platform Requirements**
+
+### **iOS Support**
+- **Minimum Version**: iOS 13.0+
+- **Target Devices**: iPhone 8 and newer
+- **Features**: Haptic feedback, VoiceOver accessibility
+- **Distribution**: App Store (future)
+
+### **Android Support**
+- **Minimum Version**: Android 8.0 (API 26)
+- **Target Devices**: Mid-range and flagship devices
+- **Features**: Material Design, Android accessibility
+- **Distribution**: Google Play (future)
+
+---
+
+## 🎨 **Design Requirements**
+
+### **Visual Design**
+- **Color Scheme**: Gradient-based with consistent color coding
+- **Typography**: Clean, readable fonts with proper hierarchy
+- **Icons**: Lucide React Native icon set
+- **Animations**: Smooth, purposeful animations (300-600ms)
+
+### **User Experience**
+- **Onboarding**: Simple, guided first-time user experience
+- **Navigation**: Intuitive tab-based navigation
+- **Feedback**: Clear loading states and error messages
+- **Accessibility**: WCAG 2.1 AA compliance
+
+---
+
+## 📊 **Analytics & Metrics**
+
+### **User Analytics**
+- **Session Tracking**: Breathing session duration and completion
+- **Feature Usage**: Most/least used features
+- **User Journey**: Navigation patterns and drop-off points
+- **Performance**: App performance and crash reporting
+
+### **Business Metrics**
+- **User Acquisition**: New user signups and activation
+- **Retention**: Daily, weekly, and monthly retention rates
+- **Engagement**: Sessions per user, time spent in app
+- **Satisfaction**: App store ratings and user feedback
+
+---
+
+## 🔄 **Development Phases**
+
+### **Phase 1: MVP Complete (Current)**
+- ✅ **Authentication**: Complete Clerk integration with user management
+- ✅ **Core Features**: Breathing exercises and custom routines
+- ✅ **Session Tracking**: Automatic session recording and statistics
+- ✅ **User Interface**: Complete navigation and design system
+- ✅ **Data Management**: Local storage with AsyncStorage integration
+- ✅ **Profile System**: Complete user profile with editing capabilities
+- 🚧 **Testing**: User testing and feedback collection
+
+### **Phase 2: Enhanced UX (Q1 2025)**
+- **Achievement System**: Milestones and rewards for consistency
+- **Advanced Analytics**: Detailed user insights and patterns
+- **Settings & Preferences**: App configuration and customization
+- **Performance Optimization**: Animation and loading improvements
+
+### **Phase 3: Advanced Features (Q2 2025)**
+- **Health Integration**: Apple Health and Google Fit
+- **Voice Guidance**: AI-powered voice sessions
+- **Social Features**: Community and sharing
+- **Personalization**: AI recommendations
+
+### **Phase 4: Platform Expansion (Q3 2025)**
+- **Web Version**: Progressive Web App
+- **Wearable Integration**: Smartwatch support
+- **Enterprise Features**: Team management
+- **API Access**: Third-party integrations
+
+---
+
+## 🚨 **Risk Assessment**
+
+### **Technical Risks**
+- **Performance**: Complex animations affecting app performance
+- **Offline Sync**: Data conflicts when reconnecting
+- **Platform Differences**: iOS/Android compatibility issues
+- **Third-party Dependencies**: Clerk API changes or outages
+
+### **Product Risks**
+- **User Adoption**: Low engagement with breathing exercises
+- **Feature Complexity**: Overwhelming users with too many options
+- **Competition**: Established meditation apps with more features
+- **Market Fit**: Misalignment with user needs and expectations
+
+### **Mitigation Strategies**
+- **Performance**: Regular testing and optimization
+- **User Testing**: Continuous feedback collection
+- **Iterative Development**: Small, frequent releases
+- **Monitoring**: Comprehensive analytics and error tracking
+
+---
+
+## 📈 **Success Criteria**
+
+### **MVP Success Metrics**
+- **Technical**: App launches and functions without crashes
+- **User**: Users can complete breathing sessions successfully
+- **Performance**: Smooth animations and fast navigation
+- **Security**: Secure authentication and data protection
+
+### **Post-MVP Success Metrics**
+- **Engagement**: 70% of users return within 7 days
+- **Retention**: 50% of users active after 30 days
+- **Satisfaction**: 4.5+ star app store rating
+- **Growth**: 20% month-over-month user growth
+
+---
+
+## 📋 **Next Steps**
+
+### **Immediate (Next 2 Weeks)**
+1. **User Testing**: Gather feedback on current MVP features
+2. **Bug Fixes**: Address any issues found during testing
+3. **Performance**: Optimize animations and loading times
+4. **Documentation**: Update all documentation with current state
+
+### **Short Term (Next Month)**
+1. **Progress Tracking**: Implement session history and statistics
+2. **Achievement System**: Add milestones and rewards
+3. **Analytics**: Set up comprehensive user analytics
+4. **Polish**: Improve existing features based on feedback
+
+### **Medium Term (Next Quarter)**
+1. **Health Integration**: Apple Health and Google Fit
+2. **Social Features**: Community and sharing capabilities
+3. **Voice Guidance**: AI-powered voice sessions
+4. **Personalization**: AI-driven recommendations
+
+---
+
+**Document Version**: 3.0  
+**Last Updated**: December 2024  
+**Next Review**: January 2025  
+**Status**: MVP with Complete Session Tracking 

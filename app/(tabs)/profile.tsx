@@ -1,308 +1,386 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   View,
   Text,
   StyleSheet,
-  SafeAreaView,
   TouchableOpacity,
-  Image,
   ScrollView,
-  Animated,
+  Alert,
+  Image,
+  SafeAreaView,
 } from 'react-native';
-import { LinearGradient } from 'expo-linear-gradient';
 import { router, useFocusEffect } from 'expo-router';
-import {
-  Settings,
-  Award,
-  Calendar,
-  Clock,
-  TrendingUp,
-  Bell,
-  Moon,
-  Volume2,
-  Smartphone,
-  ChevronRight,
-  Edit3,
-  Camera,
-  User
-} from 'lucide-react-native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useUser, useAuth } from '@clerk/clerk-expo';
+import { Ionicons } from '@expo/vector-icons';
+import { LinearGradient } from 'expo-linear-gradient';
+import { Edit, Settings, LogOut, Calendar, Clock, Target } from 'lucide-react-native';
+import { getSessions } from '@/utils/auth';
 
-interface UserProfile {
-  firstName: string;
-  lastName: string;
-  bio: string;
-  profilePicture?: string;
+interface ProfileStats {
+  totalSessions: number;
+  totalMinutes: number;
+  currentStreak: number;
 }
 
-const ProfileScreen = () => {
-  const [profile, setProfile] = useState<UserProfile>({
-    firstName: 'John',
-    lastName: 'Doe',
-    bio: 'Meditation enthusiast exploring the Wim Hof method for better health and focus.',
+export default function ProfileScreen() {
+  const { user } = useUser();
+  const { signOut } = useAuth();
+  const [profileStats, setProfileStats] = useState<ProfileStats>({
+    totalSessions: 0,
+    totalMinutes: 0,
+    currentStreak: 0,
   });
-  const fadeAnim = useRef(new Animated.Value(0)).current;
+  const [isLoading, setIsLoading] = useState(true);
 
-  useEffect(() => {
-    loadProfile();
-    Animated.timing(fadeAnim, {
-      toValue: 1,
-      duration: 600,
-      useNativeDriver: true,
-    }).start();
-  }, [fadeAnim]);
-
+  // Load profile statistics
   useFocusEffect(
     React.useCallback(() => {
-      loadProfile();
+      const loadProfileStats = async () => {
+        try {
+          const sessions = await getSessions();
+          
+          // Calculate statistics
+          const totalSessions = sessions.length;
+          const totalMinutes = sessions.reduce((total, session) => total + (session.duration || 0), 0);
+          
+          // Calculate current streak (sessions completed on consecutive days)
+          let currentStreak = 0;
+          const today = new Date();
+          today.setHours(0, 0, 0, 0);
+          
+          const sessionDates = sessions
+            .map(session => new Date(session.completedAt))
+            .map(date => {
+              date.setHours(0, 0, 0, 0);
+              return date;
+            })
+            .sort((a, b) => b.getTime() - a.getTime()); // Sort descending
+          
+          if (sessionDates.length > 0) {
+            let checkDate = today;
+            for (const sessionDate of sessionDates) {
+              const diffTime = checkDate.getTime() - sessionDate.getTime();
+              const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+              
+              if (diffDays <= 1) {
+                currentStreak++;
+                checkDate = sessionDate;
+              } else {
+                break;
+              }
+            }
+          }
+          
+          const stats = {
+            totalSessions,
+            totalMinutes,
+            currentStreak,
+          };
+          
+          setProfileStats(stats);
+        } catch (error) {
+          console.error('Error loading profile stats:', error);
+        } finally {
+          setIsLoading(false);
+        }
+      };
+      
+      loadProfileStats();
     }, [])
   );
 
-  const loadProfile = async () => {
-    try {
-      const savedProfile = await AsyncStorage.getItem('userProfile');
-      if (savedProfile) {
-        setProfile(JSON.parse(savedProfile));
-      }
-    } catch (error) {
-      console.error('Error loading profile:', error);
-    }
+  const handleLogout = async () => {
+    Alert.alert(
+      'Sign Out',
+      'Are you sure you want to sign out?',
+      [
+        { text: 'Cancel', style: 'cancel' },
+        {
+          text: 'Sign Out',
+          style: 'destructive',
+          onPress: async () => {
+            try {
+              setIsLoading(true);
+              await signOut();
+            } catch (error) {
+              console.error('Logout error:', error);
+              Alert.alert('Error', 'Failed to sign out');
+            } finally {
+              setIsLoading(false);
+            }
+          },
+        },
+      ]
+    );
   };
 
   const handleEditProfile = () => {
-    router.push('/(tabs)/edit-profile');
+    router.push('/edit-profile');
   };
 
+  if (!user) {
+    return (
+      <SafeAreaView style={styles.container}>
+        <View style={styles.loadingContainer}>
+          <Text style={styles.loadingText}>Loading profile...</Text>
+        </View>
+      </SafeAreaView>
+    );
+  }
+
   return (
-    <SafeAreaView style={{ flex: 1 }}>
-      <Animated.View style={{ flex: 1, opacity: fadeAnim }}>
-        <LinearGradient
-          colors={["#ffffff", "#f3f4f6", "#e5e7eb"] as [import('react-native').ColorValue, import('react-native').ColorValue, import('react-native').ColorValue]}
-          style={styles.container}>
-          
-          <ScrollView style={styles.scrollContainer} showsVerticalScrollIndicator={false}>
-            {/* Profile Header */}
-            <View style={styles.profileHeader}>
-              <View style={styles.profileImageContainer}>
-                {profile.profilePicture ? (
-                  <Image 
-                    source={{ uri: profile.profilePicture }} 
-                    style={styles.profileImage}
-                  />
-                ) : (
-                  <View style={styles.profileImagePlaceholder}>
-                    <User size={40} color="#6b7280" />
-                  </View>
-                )}
-                <TouchableOpacity style={styles.cameraButton}>
-                  <Camera size={16} color="white" />
-                </TouchableOpacity>
-              </View>
-              
+    <SafeAreaView style={styles.container}>
+      <ScrollView 
+        style={styles.scrollView}
+        contentContainerStyle={styles.scrollContainer}
+        showsVerticalScrollIndicator={false}
+      >
+        <View style={styles.content}>
+          {/* Profile Header */}
+          <View style={styles.profileHeader}>
+            <View style={styles.profileImageContainer}>
+              {(() => {
+                const metadata = user.unsafeMetadata as any;
+                const profilePictureUri = metadata?.profilePictureUri || user.imageUrl;
+                
+                if (profilePictureUri) {
+                  return (
+                    <Image 
+                      source={{ uri: profilePictureUri }} 
+                      style={styles.profileImage}
+                    />
+                  );
+                } else {
+                  return (
+                    <View style={styles.profileImagePlaceholder}>
+                      <Ionicons name="person" size={40} color="#94a3b8" />
+                    </View>
+                  );
+                }
+              })()}
+            </View>
+            
+            <View style={styles.profileInfo}>
               <Text style={styles.profileName}>
-                {profile.firstName} {profile.lastName}
+                {(() => {
+                  const metadata = user.unsafeMetadata as any;
+                  const displayFirstName = metadata?.firstName || user.firstName;
+                  const displayLastName = metadata?.lastName || user.lastName;
+                  
+                  if (displayFirstName && displayLastName) {
+                    return `${displayFirstName} ${displayLastName}`;
+                  } else if (displayFirstName) {
+                    return displayFirstName;
+                  } else if (displayLastName) {
+                    return displayLastName;
+                  } else {
+                    return user.primaryEmailAddress?.emailAddress || 'User';
+                  }
+                })()}
               </Text>
-              
-              <Text style={styles.profileBio}>
-                {profile.bio}
+              <Text style={styles.profileEmail}>
+                {user.primaryEmailAddress?.emailAddress}
               </Text>
-              
-              <TouchableOpacity 
-                style={styles.editButton}
-                onPress={handleEditProfile}>
-                <LinearGradient
-                  colors={['#3b82f6', '#1d4ed8']}
-                  style={styles.editButtonGradient}>
-                  <Edit3 size={16} color="white" />
-                  <Text style={styles.editButtonText}>Edit Profile</Text>
-                </LinearGradient>
-              </TouchableOpacity>
-            </View>
-
-            {/* Stats Section */}
-            <View style={styles.statsSection}>
-              <Text style={styles.sectionTitle}>Your Progress</Text>
-              <View style={styles.statsGrid}>
-                <View style={styles.statCard}>
-                  <LinearGradient
-                    colors={['#3b82f6', '#1d4ed8']}
-                    style={styles.statGradient}>
-                    <Calendar size={24} color="white" />
-                    <Text style={styles.statValue}>0</Text>
-                    <Text style={styles.statTitle}>Total Sessions</Text>
-                  </LinearGradient>
-                </View>
-                
-                <View style={styles.statCard}>
-                  <LinearGradient
-                    colors={['#10b981', '#047857']}
-                    style={styles.statGradient}>
-                    <Clock size={24} color="white" />
-                    <Text style={styles.statValue}>0</Text>
-                    <Text style={styles.statTitle}>Minutes</Text>
-                  </LinearGradient>
-                </View>
-                
-                <View style={styles.statCard}>
-                  <LinearGradient
-                    colors={['#f59e0b', '#b45309']}
-                    style={styles.statGradient}>
-                    <TrendingUp size={24} color="white" />
-                    <Text style={styles.statValue}>0</Text>
-                    <Text style={styles.statTitle}>Day Streak</Text>
-                  </LinearGradient>
-                </View>
-                
-                <View style={styles.statCard}>
-                  <LinearGradient
-                    colors={['#8b5cf6', '#6d28d9']}
-                    style={styles.statGradient}>
-                    <Award size={24} color="white" />
-                    <Text style={styles.statValue}>0</Text>
-                    <Text style={styles.statTitle}>Achievements</Text>
-                  </LinearGradient>
-                </View>
+              {(() => {
+                const metadata = user.unsafeMetadata as any;
+                const bio = metadata?.bio;
+                if (bio && bio.trim()) {
+                  return (
+                    <Text style={styles.profileBio} numberOfLines={2}>
+                      {bio}
+                    </Text>
+                  );
+                }
+                return null;
+              })()}
+              <View style={styles.verificationBadge}>
+                <Ionicons 
+                  name={user.primaryEmailAddress?.verification.status === 'verified' ? 'checkmark-circle' : 'alert-circle'} 
+                  size={16} 
+                  color={user.primaryEmailAddress?.verification.status === 'verified' ? '#10b981' : '#f59e0b'} 
+                />
+                <Text style={[
+                  styles.verificationText,
+                  { color: user.primaryEmailAddress?.verification.status === 'verified' ? '#10b981' : '#f59e0b' }
+                ]}>
+                  {user.primaryEmailAddress?.verification.status === 'verified' ? 'Verified' : 'Unverified'}
+                </Text>
               </View>
             </View>
+          </View>
 
-            {/* Settings Section */}
-            <View style={styles.settingsSection}>
-              <Text style={styles.sectionTitle}>Settings</Text>
-              <View style={styles.settingsList}>
-                <TouchableOpacity style={styles.settingItem}>
-                  <View style={styles.settingLeft}>
-                    <Bell size={20} color="#374151" />
-                    <Text style={styles.settingText}>Notifications</Text>
-                  </View>
-                  <ChevronRight size={20} color="#9ca3af" />
-                </TouchableOpacity>
-                
-                <TouchableOpacity style={styles.settingItem}>
-                  <View style={styles.settingLeft}>
-                    <Moon size={20} color="#374151" />
-                    <Text style={styles.settingText}>Dark Mode</Text>
-                  </View>
-                  <ChevronRight size={20} color="#9ca3af" />
-                </TouchableOpacity>
-                
-                <TouchableOpacity style={styles.settingItem}>
-                  <View style={styles.settingLeft}>
-                    <Volume2 size={20} color="#374151" />
-                    <Text style={styles.settingText}>Sound Settings</Text>
-                  </View>
-                  <ChevronRight size={20} color="#9ca3af" />
-                </TouchableOpacity>
-                
-                <TouchableOpacity style={styles.settingItem}>
-                  <View style={styles.settingLeft}>
-                    <Smartphone size={20} color="#374151" />
-                    <Text style={styles.settingText}>App Settings</Text>
-                  </View>
-                  <ChevronRight size={20} color="#9ca3af" />
-                </TouchableOpacity>
+          {/* Stats Section */}
+          <View style={styles.statsSection}>
+            <Text style={styles.sectionTitle}>Your Progress</Text>
+            <View style={styles.statsGrid}>
+              <View style={styles.statCard}>
+                <Text style={styles.statNumber}>{profileStats.totalSessions}</Text>
+                <Text style={styles.statLabel}>Total Sessions</Text>
+              </View>
+              <View style={styles.statCard}>
+                <Text style={styles.statNumber}>{Math.round(profileStats.totalMinutes)}</Text>
+                <Text style={styles.statLabel}>Minutes</Text>
+              </View>
+              <View style={styles.statCard}>
+                <Text style={styles.statNumber}>{profileStats.currentStreak}</Text>
+                <Text style={styles.statLabel}>Current Streak</Text>
+              </View>
+              <View style={styles.statCard}>
+                <Text style={styles.statNumber}>0</Text>
+                <Text style={styles.statLabel}>Longest Streak</Text>
               </View>
             </View>
-          </ScrollView>
-        </LinearGradient>
-      </Animated.View>
+          </View>
+
+          {/* Actions Section */}
+          <View style={styles.actionsSection}>
+            <Text style={styles.sectionTitle}>Account</Text>
+            
+            <TouchableOpacity style={styles.actionButton} onPress={handleEditProfile}>
+              <View style={styles.actionContent}>
+                <Ionicons name="person-outline" size={24} color="#64748b" />
+                <Text style={styles.actionText}>Edit Profile</Text>
+              </View>
+              <Ionicons name="chevron-forward" size={20} color="#cbd5e1" />
+            </TouchableOpacity>
+
+            <TouchableOpacity style={styles.actionButton}>
+              <View style={styles.actionContent}>
+                <Ionicons name="notifications-outline" size={24} color="#64748b" />
+                <Text style={styles.actionText}>Notifications</Text>
+              </View>
+              <Ionicons name="chevron-forward" size={20} color="#cbd5e1" />
+            </TouchableOpacity>
+
+            <TouchableOpacity style={styles.actionButton}>
+              <View style={styles.actionContent}>
+                <Ionicons name="settings-outline" size={24} color="#64748b" />
+                <Text style={styles.actionText}>Settings</Text>
+              </View>
+              <Ionicons name="chevron-forward" size={20} color="#cbd5e1" />
+            </TouchableOpacity>
+
+            <TouchableOpacity style={styles.actionButton}>
+              <View style={styles.actionContent}>
+                <Ionicons name="help-circle-outline" size={24} color="#64748b" />
+                <Text style={styles.actionText}>Help & Support</Text>
+              </View>
+              <Ionicons name="chevron-forward" size={20} color="#cbd5e1" />
+            </TouchableOpacity>
+          </View>
+
+          {/* Sign Out Button */}
+          <TouchableOpacity 
+            style={[styles.signOutButton, isLoading && styles.signOutButtonDisabled]} 
+            onPress={handleLogout}
+            disabled={isLoading}
+          >
+            <Ionicons name="log-out-outline" size={20} color="#dc2626" />
+            <Text style={styles.signOutText}>
+              {isLoading ? 'Signing out...' : 'Sign Out'}
+            </Text>
+          </TouchableOpacity>
+
+          {/* App Version */}
+          <View style={styles.versionContainer}>
+            <Text style={styles.versionText}>Version 1.0.0</Text>
+          </View>
+        </View>
+      </ScrollView>
     </SafeAreaView>
   );
-};
-
-export default ProfileScreen;
+}
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: '#f8fafc',
+  },
+  scrollView: {
+    flex: 1,
   },
   scrollContainer: {
+    flexGrow: 1,
+    paddingTop: 20,
+    paddingBottom: 40,
+  },
+  content: {
+    paddingHorizontal: 20,
+  },
+  loadingContainer: {
     flex: 1,
-    padding: 24,
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingTop: 100,
+  },
+  loadingText: {
+    fontSize: 16,
+    color: '#64748b',
   },
   profileHeader: {
+    flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 32,
+    backgroundColor: 'white',
+    borderRadius: 16,
+    padding: 24,
+    marginBottom: 24,
+    shadowColor: '#000000',
+    shadowOffset: { width: 0, height: 15 },
+    shadowOpacity: 0.4,
+    shadowRadius: 20,
+    elevation: 20,
   },
   profileImageContainer: {
-    position: 'relative',
-    marginBottom: 16,
+    marginRight: 16,
   },
   profileImage: {
-    width: 100,
-    height: 100,
-    borderRadius: 50,
+    width: 80,
+    height: 80,
+    borderRadius: 40,
   },
   profileImagePlaceholder: {
-    width: 100,
-    height: 100,
-    borderRadius: 50,
-    backgroundColor: '#e5e7eb',
-    alignItems: 'center',
+    width: 80,
+    height: 80,
+    borderRadius: 40,
+    backgroundColor: '#e2e8f0',
     justifyContent: 'center',
-    elevation: 8,
-    shadowColor: '#000000',
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.1,
-    shadowRadius: 8,
+    alignItems: 'center',
   },
-  cameraButton: {
-    position: 'absolute',
-    bottom: 0,
-    right: 0,
-    width: 32,
-    height: 32,
-    borderRadius: 16,
-    backgroundColor: '#3b82f6',
-    alignItems: 'center',
-    justifyContent: 'center',
-    elevation: 4,
-    shadowColor: '#000000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.2,
-    shadowRadius: 4,
+  profileInfo: {
+    flex: 1,
   },
   profileName: {
     fontSize: 24,
     fontWeight: 'bold',
-    color: '#222',
+    color: '#1e293b',
+    marginBottom: 4,
+  },
+  profileEmail: {
+    fontSize: 16,
+    color: '#64748b',
     marginBottom: 8,
-    textAlign: 'center',
   },
   profileBio: {
-    fontSize: 16,
-    color: '#666',
-    textAlign: 'center',
-    marginBottom: 20,
-    lineHeight: 24,
+    fontSize: 14,
+    color: '#64748b',
+    marginBottom: 8,
   },
-  editButton: {
-    borderRadius: 12,
-    overflow: 'hidden',
-    elevation: 8,
-    shadowColor: '#000000',
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.2,
-    shadowRadius: 8,
-  },
-  editButtonGradient: {
+  verificationBadge: {
     flexDirection: 'row',
     alignItems: 'center',
-    paddingVertical: 12,
-    paddingHorizontal: 20,
   },
-  editButtonText: {
-    fontSize: 16,
-    fontWeight: '600',
-    color: 'white',
-    marginLeft: 8,
+  verificationText: {
+    fontSize: 14,
+    fontWeight: '500',
+    marginLeft: 4,
   },
   statsSection: {
-    marginBottom: 32,
+    marginBottom: 24,
   },
   sectionTitle: {
     fontSize: 20,
-    fontWeight: '600',
-    color: '#222',
+    fontWeight: 'bold',
+    color: '#1e293b',
     marginBottom: 16,
   },
   statsGrid: {
@@ -311,62 +389,81 @@ const styles = StyleSheet.create({
     gap: 12,
   },
   statCard: {
-    width: '48%',
-    borderRadius: 16,
-    overflow: 'hidden',
-    elevation: 12,
+    flex: 1,
+    minWidth: '45%',
+    backgroundColor: 'white',
+    borderRadius: 12,
+    padding: 16,
+    alignItems: 'center',
     shadowColor: '#000000',
-    shadowOffset: { width: 0, height: 6 },
+    shadowOffset: { width: 0, height: 8 },
     shadowOpacity: 0.2,
     shadowRadius: 12,
-    backgroundColor: '#f8fafc',
+    elevation: 8,
   },
-  statGradient: {
-    padding: 16,
-    alignItems: 'center',
-  },
-  statValue: {
+  statNumber: {
     fontSize: 24,
-    fontWeight: '700',
-    color: 'white',
-    marginTop: 8,
+    fontWeight: 'bold',
+    color: '#3b82f6',
     marginBottom: 4,
   },
-  statTitle: {
-    fontSize: 12,
-    fontWeight: '600',
-    color: 'white',
+  statLabel: {
+    fontSize: 14,
+    color: '#64748b',
     textAlign: 'center',
   },
-  settingsSection: {
-    marginBottom: 32,
+  actionsSection: {
+    marginBottom: 24,
   },
-  settingsList: {
-    gap: 12,
-  },
-  settingItem: {
+  actionButton: {
     flexDirection: 'row',
     alignItems: 'center',
-    padding: 16,
+    justifyContent: 'space-between',
+    backgroundColor: 'white',
     borderRadius: 12,
-    backgroundColor: '#ffffff',
-    elevation: 8,
+    padding: 16,
+    marginBottom: 8,
     shadowColor: '#000000',
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.1,
-    shadowRadius: 8,
-    borderWidth: 1,
-    borderColor: '#e5e7eb',
+    shadowOffset: { width: 0, height: 8 },
+    shadowOpacity: 0.2,
+    shadowRadius: 12,
+    elevation: 8,
   },
-  settingLeft: {
+  actionContent: {
     flexDirection: 'row',
     alignItems: 'center',
-    flex: 1,
   },
-  settingText: {
+  actionText: {
     fontSize: 16,
-    fontWeight: '500',
-    color: '#374151',
+    color: '#1e293b',
     marginLeft: 12,
+    fontWeight: '500',
+  },
+  signOutButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#fef2f2',
+    borderRadius: 12,
+    padding: 16,
+    marginBottom: 24,
+    borderWidth: 1,
+    borderColor: '#fecaca',
+  },
+  signOutButtonDisabled: {
+    opacity: 0.6,
+  },
+  signOutText: {
+    fontSize: 16,
+    color: '#dc2626',
+    fontWeight: '600',
+    marginLeft: 8,
+  },
+  versionContainer: {
+    alignItems: 'center',
+  },
+  versionText: {
+    fontSize: 14,
+    color: '#94a3b8',
   },
 });
