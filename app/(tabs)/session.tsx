@@ -481,7 +481,7 @@ const styles = StyleSheet.create({
     flex: 1,
     fontSize: 18,
     fontWeight: '600',
-    color: 'white',
+    color: '#000000',
     textAlign: 'center',
   },
   headerSpacer: {
@@ -492,14 +492,15 @@ const styles = StyleSheet.create({
     marginBottom: 30,
   },
   progressText: {
-    color: '#94a3b8',
+    color: '#000000',
     fontSize: 14,
     textAlign: 'center',
     marginBottom: 8,
+    fontWeight: '500',
   },
   progressBar: {
     height: 4,
-    backgroundColor: '#374151',
+    backgroundColor: 'rgba(0, 0, 0, 0.2)',
     borderRadius: 2,
     overflow: 'hidden',
   },
@@ -517,7 +518,7 @@ const styles = StyleSheet.create({
   phaseText: {
     fontSize: 32,
     fontWeight: 'bold',
-    color: 'white',
+    color: '#000000',
     textAlign: 'center',
     marginTop: 40,
     marginBottom: 16,
@@ -525,23 +526,24 @@ const styles = StyleSheet.create({
   timerText: {
     fontSize: 48,
     fontWeight: 'bold',
-    color: '#60a5fa',
+    color: '#000000',
     textAlign: 'center',
     marginBottom: 16,
     fontFamily: Platform.OS === 'ios' ? 'Menlo' : 'monospace',
   },
   instructionText: {
     fontSize: 16,
-    color: '#94a3b8',
+    color: '#000000',
     textAlign: 'center',
     marginHorizontal: 40,
     lineHeight: 24,
+    fontWeight: '500',
   },
   hintText: {
     fontSize: 12,
-    color: '#6b7280',
+    color: '#374151',
     textAlign: 'center',
-    marginTop: 20,
+    marginTop: 5,
     fontStyle: 'italic',
   },
   controls: {
@@ -596,8 +598,10 @@ const styles = StyleSheet.create({
   },
   modalText: {
     fontSize: 16,
-    color: '#94a3b8',
+    color: '#e5e7eb',
     marginBottom: 24,
+    textAlign: 'center',
+    lineHeight: 22,
   },
   modalActions: {
     flexDirection: 'row',
